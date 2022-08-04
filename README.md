@@ -20,7 +20,7 @@ Tests :
 
 ## Contributions
 
-Si vous pensez avoir déceler une erreur, ou vous voulez proposez une amélioration, n'hésiitez pas à proposer une pull request ou ouvrir une issue.
+Si vous pensez avoir décelé une erreur, ou vous voulez proposer une amélioration, n'hésitez pas à proposer une pull request ou ouvrir une issue.
 
 ## Prochaine étape
 
