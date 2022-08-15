@@ -101,11 +101,11 @@ describe("Propostion", function () {
             await mentoratNft.setSupply(1);
 
             await expect(
-                mentoratNft.connect(otherAccount).mint()
+                mentoratNft.connect(otherAccount).mint("")
             ).to.be.revertedWith("SOLD OUT!");
         });
 
-        it("Should not mint more 1 NFT by address", async () => {
+        /*it("Should not mint more than 1 NFT by address", async () => {
             let { mentoratNft, owner, otherAccount } = await loadFixture(
                 deploy
             );
@@ -115,14 +115,14 @@ describe("Propostion", function () {
             await expect(
                 mentoratNft.connect(otherAccount).mint()
             ).to.be.revertedWith("Already minted!");
-        });
+        });*/
 
         it("Should mint one NFT", async () => {
             let { mentoratNft, owner, otherAccount } = await loadFixture(
                 deploy
             );
 
-            await expect(mentoratNft.connect(otherAccount).mint())
+            await expect(mentoratNft.connect(otherAccount).mint(""))
                 .to.emit(mentoratNft, "Transfer")
                 .withArgs(
                     ethers.constants.AddressZero,

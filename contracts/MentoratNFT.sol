@@ -12,6 +12,9 @@ contract MentoratNFT is ERC721A, Ownable, PaymentSplitter, ERC2981 {
 
     mapping(address => uint256) mintedByAddress;
 
+    // From ERC721URIStorage.sol
+    mapping(uint256 => string) private _tokenURIs;
+
     bool public reserved;
 
     constructor(address[] memory team, uint256[] memory teamShares)
@@ -38,13 +41,15 @@ contract MentoratNFT is ERC721A, Ownable, PaymentSplitter, ERC2981 {
         supply = _newSupply;
     }
 
-    function mint() public {
+    function mint(string memory _tokenURI) public {
         require(totalSupply() + 1 <= supply, "SOLD OUT!");
-        require(mintedByAddress[msg.sender] < 1, "Already minted!");
+        //require(mintedByAddress[msg.sender] < 1, "Already minted!");
 
+        uint256 newTokenId = totalSupply();
         mintedByAddress[msg.sender]++;
 
         _safeMint(msg.sender, 1);
+        _setTokenURI(newTokenId, _tokenURI);
     }
 
     function reserve() public onlyOwner {
@@ -71,5 +76,29 @@ contract MentoratNFT is ERC721A, Ownable, PaymentSplitter, ERC2981 {
             interfaceId == 0x80ac58cd || // ERC165 interface ID for ERC721.
             interfaceId == 0x5b5e139f || // ERC165 interface ID for ERC721Metadata.
             interfaceId == 0x2a55205a; //ERC 2981
+    }
+
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        //_requireMinted(tokenId);
+
+        string memory _tokenURI = _tokenURIs[tokenId];
+        string memory base = _baseURI();
+
+        // If there is no base URI, return the token URI.
+        if (bytes(base).length == 0) {
+            return _tokenURI;
+        }
+        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
+        if (bytes(_tokenURI).length > 0) {
+            return string(abi.encodePacked(base, _tokenURI));
+        }
+
+        return super.tokenURI(tokenId);
+    }
+
+    // From ERC721URIStorage.sol
+    function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal {
+        require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
+        _tokenURIs[tokenId] = _tokenURI;
     }
 }
