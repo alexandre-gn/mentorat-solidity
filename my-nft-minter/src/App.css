@@ -1,0 +1,33 @@
+.App {
+  background: url("./meteor.svg");
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  min-height: 100vh;
+}
+
+.App-overlay {
+  background-color: #000;
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  left: 0;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 5rem 2rem;
+  }
+}
